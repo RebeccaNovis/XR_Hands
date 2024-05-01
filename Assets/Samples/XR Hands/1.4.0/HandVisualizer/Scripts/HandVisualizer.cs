@@ -11,6 +11,7 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
 
         public float xAxisPosition;
         public float leftWristYAxisPos;
+        public float leftIndexYPos;
         /// <summary>
         /// The type of velocity to visualize.
         /// </summary>
@@ -308,6 +309,7 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
                 //get the joint we are interested in (the wrist in this case)
                 var wrist = subsystem.rightHand.GetJoint(XRHandJointID.Wrist);
                 var wristLeft = subsystem.leftHand.GetJoint(XRHandJointID.Wrist);
+                var leftIndex = subsystem.leftHand.GetJoint(XRHandJointID.IndexTip);
 
                 //try get where the wrist is, if there is a wrist, make it a var
                 wrist.TryGetPose(out var wristPose);
@@ -316,14 +318,22 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
                 wristLeft.TryGetPose(out var wristLeftPose);
                 Debug.Log("leftHand Pos: " + wristLeftPose.position);
 
+                leftIndex.TryGetPose(out var IndexPoseL);
+                Debug.Log("indexPose: " + IndexPoseL);
+
                 Vector3 wristPosition = wristPose.position;
                 xAxisPosition = wristPosition.x;
 
                 Vector3 wristLeftPosition = wristLeftPose.position;
                 leftWristYAxisPos = wristLeftPosition.y;
 
+                Vector3 IndexPositionL = IndexPoseL.position;
+                leftIndexYPos = IndexPositionL.y;
+
                 //float xAxisPosition = wristPose.position.x;
                 Debug.Log("x axis position: " + xAxisPosition);
+                Debug.Log("y axis position: " + leftWristYAxisPos);
+                Debug.Log("Index Y Pos: " + leftIndexYPos);
 
                 Debug.Log(wrist.ToString());
                 return;

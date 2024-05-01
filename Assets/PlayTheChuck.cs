@@ -14,18 +14,23 @@ public class PlayTheChuck : MonoBehaviour
         GetComponent<ChuckSubInstance>().RunCode(@" 
             440 => global float InFreq;
             0.2 => global float InGain;
+            0 => global int InBar;
             ModalBar s => dac;
-            1 => s.preset;
+            
             while( true )
             { 
+                InBar => s.preset;
                 1 => s.noteOn;
                 InGain => s.gain;
                 forceMajor() => s.freq;
-                10::ms => now;
+                100::ms => now;
+                1 => s.noteOff;
+                0 => s.gain;
+                100::ms => now;
             }
             fun int forceMajor()
             {
-                Std.ftoi(InFreq - 150) => int myFreq;
+                Std.ftoi(InFreq) => int myFreq;
                 [0,0,2,2,4,5,5,7,7,9,9,11] @=> int major[];
 
                 myFreq % 12 => int pitchClass;
@@ -44,8 +49,21 @@ public class PlayTheChuck : MonoBehaviour
     {
         float rightXPosition = handVisualizer.xAxisPosition;
         float leftYPosition = handVisualizer.leftWristYAxisPos;
+        float indexYPosition = handVisualizer.leftIndexYPos;
 
-        GetComponent<ChuckSubInstance>().SetFloat("InFreq", rightXPosition * 1000);
-        GetComponent<ChuckSubInstance>().SetFloat("InGain", leftYPosition);
+        float myGain = Mathf.Clamp((leftYPosition - .4f), 0f, 1f);
+
+        int bar = Mathf.RoundToInt(((indexYPosition - 1) * 10));
+        int myBar = Mathf.Clamp(bar, 0, 6);
+
+        GetComponent<ChuckSubInstance>().SetFloat("InFreq", Mathf.Clamp(rightXPosition * 1000, 50f, 500f));
+        
+        GetComponent<ChuckSubInstance>().SetFloat("InGain", myGain);
+
+        //GetComponent<ChuckSubInstance>().SetInt("InBar", myBar);
+
+        Debug.Log("Freq: " + Mathf.Clamp(rightXPosition * 1000, 50f, 500f));
+        Debug.Log("Gain: " + myGain);
+        Debug.Log("my bar: " + myBar);
     }
 }
