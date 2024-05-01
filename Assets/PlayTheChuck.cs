@@ -25,7 +25,7 @@ public class PlayTheChuck : MonoBehaviour
             }
             fun int forceMajor()
             {
-                Std.ftoi(InFreq) => int myFreq;
+                Std.ftoi(InFreq - 150) => int myFreq;
                 [0,0,2,2,4,5,5,7,7,9,9,11] @=> int major[];
 
                 myFreq % 12 => int pitchClass;
