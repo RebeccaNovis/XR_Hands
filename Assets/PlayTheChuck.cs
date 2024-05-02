@@ -60,10 +60,12 @@ public class PlayTheChuck : MonoBehaviour
         
         GetComponent<ChuckSubInstance>().SetFloat("InGain", myGain);
 
-        //GetComponent<ChuckSubInstance>().SetInt("InBar", myBar);
+        //GetComponent<ChuckSubInstance>().SetFloat("InBar", myBar);
 
         Debug.Log("Freq: " + Mathf.Clamp(rightXPosition * 1000, 50f, 500f));
         Debug.Log("Gain: " + myGain);
-        Debug.Log("my bar: " + myBar);
+        Debug.Log("my bar: " + myBar + "bar: " + bar);
     }
+
+
 }
